@@ -19,7 +19,7 @@ class User
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO user (name, email, password) VALUES ('$name', '$email', '$password')";
+        $sql = "INSERT INTO user (name, email, password) VALUES ('$name', '$email', '$hashedPassword');";
 
         return $this->db->query($sql);
     }
