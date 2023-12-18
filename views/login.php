@@ -30,10 +30,10 @@
                     <h2 class="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
                     xl:text-bold">Log in</h2>
                     <div class="mt-12">
-                        <form>
+                        <form method="POST" action="../actions/login_process.php">
                             <div>
                                 <div class="text-sm font-bold text-gray-700 tracking-wide">Email Address</div>
-                                <input class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" type="" placeholder="mike@gmail.com">
+                                <input name="email" class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" type="email" placeholder="mike@gmail.com">
                             </div>
                             <div class="mt-8">
                                 <div class="flex justify-between items-center">
@@ -41,10 +41,10 @@
                                         Password
                                     </div>
                                 </div>
-                                <input class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" type="" placeholder="Enter your password">
+                                <input name="password" class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" type="password" placeholder="Enter your password">
                             </div>
                             <div class="mt-10">
-                                <button class="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
+                                <button name="submit" type="submit" class="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
                                 font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
                                 shadow-lg">
                                     Log In
