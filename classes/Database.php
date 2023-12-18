@@ -24,6 +24,16 @@ class Database
     {
         return $this->connection->query($sql);
     }
+
+    public function fetch($sql)
+    {
+        $result = $this->connection->query($sql);
+        if ($result) {
+            return $result->fetch_assoc();
+        } else {
+            return false;
+        }
+    }
 }
 
 
