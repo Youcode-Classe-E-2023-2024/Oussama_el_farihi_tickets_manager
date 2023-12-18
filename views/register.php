@@ -41,18 +41,18 @@
                 <h2 class="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
                     xl:text-bold">Register</h2>
                 <div class="mt-12">
-                    <form>
+                    <form method="POST" action="../actions/register_process.php">
                         <div>
                             <div class="text-sm font-bold text-gray-700 tracking-wide">Username</div>
                             <input
                                 class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                                type="" placeholder="oussama_ef06">
+                                type="text" name="name" placeholder="oussama_ef06">
                         </div>
                         <div class="mt-8">
                             <div class="text-sm font-bold text-gray-700 tracking-wide">Email Address</div>
                             <input
                                 class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                                type="" placeholder="oussamaef06@gmail.com">
+                                type="email" name="email" placeholder="oussamaef06@gmail.com">
                         </div>
                         <div class="mt-8">
                             <div class="flex justify-between items-center">
@@ -62,12 +62,12 @@
                             </div>
                             <input
                                 class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                                type="" placeholder="Enter your password">
+                                type="password" name="password" placeholder="Enter your password">
                         </div>
                         <div class="mt-10">
                             <button class="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
                                 font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
-                                shadow-lg">
+                                shadow-lg" type="submit" name="submit">
                                 Register
                             </button>
                         </div>
@@ -79,7 +79,7 @@
             <div class="max-w-xs transform duration-200 hover:scale-110 cursor-pointer">
                 <svg class="w-5/6 mx-auto" xmlns="http://www.w3.org/2000/svg" id="f080dbb7-9b2b-439b-a118-60b91c514f72"
                     data-name="Layer 1" viewBox="0 0 528.71721 699.76785">
-                    <title>Login</title>
+                    <title>Register</title>
                     <rect y="17.06342" width="444" height="657" fill="#535461" />
                     <polygon points="323 691.063 0 674.063 0 17.063 323 0.063 323 691.063" fill="#7f9cf5" />
                     <circle cx="296" cy="377.06342" r="4" fill="#535461" />
