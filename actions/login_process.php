@@ -11,9 +11,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $password = $_POST['password'];
 
     if($user->login($email,$password)){
-        header("Location: index.php?login=success");
+        header("Location: ../views/index.php?login=success");
     }else{
-        header("Location: login.php?login=error");
+        header("Location: ../views/login.php?login=error");
     }
 }
 
