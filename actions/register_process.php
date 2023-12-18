@@ -13,9 +13,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $success = $user->register($name, $email, $password); 
 
     if($success){
-        header('Location:login.php?register=success');
+        header('Location:../views/login.php?register=success');
     }else{
-        header('Location:register.php?error=registration_failed');
+        header('Location:../views/register.php?error=registration_failed');
     }
 }
 ?>
