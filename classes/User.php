@@ -45,6 +45,11 @@ class User
         session_unset();
         session_destroy();
     }
+
+    public function getUsers() {
+        $sql = "SELECT int_user, name FROM user";
+        return $this->db->fetchAll($sql);
+    }
 }
 
 ?>

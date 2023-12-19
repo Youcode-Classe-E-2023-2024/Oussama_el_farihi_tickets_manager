@@ -34,6 +34,16 @@ class Database
             return false;
         }
     }
+
+    public function fetchAll($sql)
+    {
+        $result = $this->connection->query($sql);
+        if ($result) {
+            return $result->fetch_all();
+        } else {
+            return false;
+        }
+    }
 }
 
 

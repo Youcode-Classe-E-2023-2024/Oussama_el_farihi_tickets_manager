@@ -60,5 +60,19 @@ class Ticket
         return [];
     }
 
+    public function getStatuses() {
+        $sql = "SHOW COLUMNS FROM ticket LIKE 'status'";
+        $result = $this->db->fetch($sql);
+
+        if ($result) {
+            $type = $result["Type"];
+            preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+            $enum = explode("','", $matches[1]);
+            return $enum;
+        }
+
+        return [];
+    }
+
 }
 ?>
