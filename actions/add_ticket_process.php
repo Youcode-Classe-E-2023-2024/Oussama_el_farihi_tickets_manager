@@ -18,23 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $assignedToString = implode(',', $assignedTo);
 
     $ticket = new Ticket();
-    $result = $ticket->createTicket($title, $description, $priority, $status, $assignedToString);
-
-    if ($result) {
-        // Rediriger ou afficher un message de succès
-    } else {
-        // Afficher un message d'erreur
-    }
+    
     $ticketId = $ticket->createTicket($title, $description, $priority, $status, $creatorId);
 
 if ($ticketId) {
-    // Associer les utilisateurs sélectionnés au ticket
     foreach ($assignedTo as $userId) {
         $ticket->assignUserToTicket($userId, $ticketId, 'Assigned Role');
     }
-    // Redirection ou affichage d'un message de succès
+    header("Location: ../views/add_ticket.php?Adding_ticket=success");
 } else {
-    // Affichage d'un message d'erreur
+    header("Location: ../views/add_ticket.php?Adding_ticket=error");
 }
 
 }
