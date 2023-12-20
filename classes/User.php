@@ -34,7 +34,7 @@ class User
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['id_user'] = $user['id_user'];
             $_SESSION['name'] = $user['name'];
-
+            $_SESSION['user'] = $user;
             return true;
         }
         return false;
