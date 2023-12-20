@@ -20,16 +20,15 @@ class Ticket
         $sql = "INSERT INTO ticket (titre, description, priorite, status) VALUES ('$title', '$description', '$priority', '$status')";
         $this->db->query($sql);
     
-        // Retourner l'ID du ticket créé
         return $this->db->getLastInsertId();
     }
 
-    public function assignUserToTicket($userId, $ticketId, $role) {
+    public function assignUserToTicket($userId, $ticketId, $creator) {
         $userId = $this->db->escape($userId);
         $ticketId = $this->db->escape($ticketId);
-        $role = $this->db->escape($role);
+        $creator = $this->db->escape($creator);
     
-        $sql = "INSERT INTO userticket (id_user, id_ticket, role) VALUES ('$userId', '$ticketId', '$role')";
+        $sql = "INSERT INTO userticket (id_user, id_ticket, creator) VALUES ('$userId', '$ticketId', '$creator')";
         return $this->db->query($sql);
     }
     
@@ -83,6 +82,15 @@ class Ticket
 
         return [];
     }
+
+    public function getTickets() {
+        $sql = "SELECT ticket.*, user.name, userticket.creator
+        FROM ticket 
+        INNER JOIN userticket ON ticket.id_ticket = userticket.id_ticket 
+        INNER JOIN user ON userticket.id_user = user.id_user;";
+        return $this->db->fetchAll($sql);
+    }
+    
 
 }
 ?>

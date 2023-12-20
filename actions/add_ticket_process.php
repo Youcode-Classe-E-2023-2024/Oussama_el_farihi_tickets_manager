@@ -22,8 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ticketId = $ticket->createTicket($title, $description, $priority, $status, $creatorId);
 
 if ($ticketId) {
+    $creator = $_SESSION['user']['name'];
     foreach ($assignedTo as $userId) {
-        $ticket->assignUserToTicket($userId, $ticketId, 'Assigned Role');
+        
+        $ticket->assignUserToTicket($userId, $ticketId, $creator);
     }
     header("Location: ../views/add_ticket.php?Adding_ticket=success");
 } else {

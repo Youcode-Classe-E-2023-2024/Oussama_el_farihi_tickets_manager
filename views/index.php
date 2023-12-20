@@ -1,3 +1,11 @@
+<?php
+
+require_once '../classes/Ticket.php';
+$ticket = new Ticket();
+$tickets = $ticket->getTickets();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,23 +131,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <img class="w-8 h-8 rounded-full" src="/path/to/image.jpg" alt="Profile Image">
-                    <div class="ml-3">
-                      <div class="text-sm font-medium text-gray-900">Lana Byrd</div>
-                      <div class="text-sm text-gray-500">email@flowbite.com</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4">Ticket Title</td>
-                <td class="px-6 py-4">oussamaef</td>
-                <td class="px-6 py-4">Open</td>
-                <td class="px-6 py-4">High</td>
-              </tr>
-              <!-- Add more <tr> elements here for additional tickets -->
-            </tbody>
+              <a href="">
+              <?php foreach ($tickets as $ticket): ?>
+    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+      <td class="px-6 py-4"><?= htmlspecialchars($ticket['creator']) ?></td>
+      <td class="px-6 py-4"><?= htmlspecialchars($ticket['titre']) ?></td>
+      <td class="px-6 py-4"><?= htmlspecialchars($ticket['name']) ?></td>
+      <td class="px-6 py-4"><?= htmlspecialchars($ticket['status']) ?></td>
+      <td class="px-6 py-4"><?= htmlspecialchars($ticket['priorite']) ?></td>
+    </tr>
+  <?php endforeach; ?>
+              </a>
+</tbody>
           </table>
         </div>
       </div>
