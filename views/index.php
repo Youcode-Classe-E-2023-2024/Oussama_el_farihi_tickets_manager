@@ -128,21 +128,25 @@ $tickets = $ticket->getTickets();
                 <th scope="col" class="px-6 py-3">Agent</th>
                 <th scope="col" class="px-6 py-3">Status</th>
                 <th scope="col" class="px-6 py-3">Priority</th>
+                <th scope="col" class="px-6 py-3"></th>
               </tr>
             </thead>
             <tbody>
-              <a href="">
-              <?php foreach ($tickets as $ticket): ?>
-    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-      <td class="px-6 py-4"><?= htmlspecialchars($ticket['creator']) ?></td>
-      <td class="px-6 py-4"><?= htmlspecialchars($ticket['titre']) ?></td>
-      <td class="px-6 py-4"><?= htmlspecialchars($ticket['name']) ?></td>
-      <td class="px-6 py-4"><?= htmlspecialchars($ticket['status']) ?></td>
-      <td class="px-6 py-4"><?= htmlspecialchars($ticket['priorite']) ?></td>
-    </tr>
-  <?php endforeach; ?>
-              </a>
-</tbody>
+          <?php foreach ($tickets as $ticket): ?>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <td class="px-6 py-4"><?= htmlspecialchars($ticket['creator']) ?></td>
+              <td class="px-6 py-4"><?= htmlspecialchars($ticket['titre']) ?></td>
+              <td class="px-6 py-4"><?= htmlspecialchars($ticket['name']) ?></td>
+              <td class="px-6 py-4"><?= htmlspecialchars($ticket['status']) ?></td>
+              <td class="px-6 py-4"><?= htmlspecialchars($ticket['priorite']) ?></td>
+              <td class="px-6 py-4">
+                <button onclick="window.location.href='details_ticket.php?id=<?= htmlspecialchars($ticket['id_ticket']) ?>'" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                  View Details
+                </button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
           </table>
         </div>
       </div>
