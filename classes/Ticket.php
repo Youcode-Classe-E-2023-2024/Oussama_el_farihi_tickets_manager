@@ -11,18 +11,28 @@ class Ticket
     }
 
 
-    public function createTicket($title, $description, $priority, $status, $assignedTo)
-    {
+    public function createTicket($title, $description, $priority, $status, $creatorId) {
         $title = $this->db->escape($title);
         $description = $this->db->escape($description);
         $priority = $this->db->escape($priority);
         $status = $this->db->escape($status);
-        $assignedTo = $this->db->escape($assignedTo);
+    
+        $sql = "INSERT INTO ticket (titre, description, priorite, status) VALUES ('$title', '$description', '$priority', '$status')";
+        $this->db->query($sql);
+    
+        // Retourner l'ID du ticket créé
+        return $this->db->getLastInsertId();
+    }
 
-        $sql = "INSERT INTO ticket (titre, description, priorite, status, assigned_to) VALUES ('$title', '$description', '$priority', '$status', '$assignedTo')";
-
+    public function assignUserToTicket($userId, $ticketId, $role) {
+        $userId = $this->db->escape($userId);
+        $ticketId = $this->db->escape($ticketId);
+        $role = $this->db->escape($role);
+    
+        $sql = "INSERT INTO userticket (id_user, id_ticket, role) VALUES ('$userId', '$ticketId', '$role')";
         return $this->db->query($sql);
     }
+    
 
 
     public function updateTicket($id_ticket, $title, $description, $priority, $status, $assignedTo)

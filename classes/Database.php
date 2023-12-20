@@ -35,15 +35,19 @@ class Database
         }
     }
 
-    public function fetchAll($sql)
-    {
+    public function fetchAll($sql) {
         $result = $this->connection->query($sql);
         if ($result) {
-            return $result->fetch_all();
+            return $result->fetch_all(MYSQLI_ASSOC);
         } else {
             return false;
         }
     }
+
+    public function getLastInsertId() {
+        return $this->connection->insert_id;
+    }
+    
 }
 
 

@@ -47,9 +47,10 @@ class User
     }
 
     public function getUsers() {
-        $sql = "SELECT int_user, name FROM user";
+        $sql = "SELECT id_user, name FROM user";
         return $this->db->fetchAll($sql);
     }
+    
 }
 
 ?>
