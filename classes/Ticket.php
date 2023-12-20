@@ -91,6 +91,39 @@ class Ticket
         return $this->db->fetchAll($sql);
     }
     
+    public function getTicketById($id_ticket) {
+        $id_ticket = $this->db->escape($id_ticket); // Escape the input to prevent SQL injection
+
+        $sql = "SELECT ticket.*, user.name, userticket.creator
+                FROM ticket 
+                INNER JOIN userticket ON ticket.id_ticket = userticket.id_ticket 
+                INNER JOIN user ON userticket.id_user = user.id_user
+                WHERE ticket.id_ticket = '$id_ticket';";
+
+        $result = $this->db->fetch($sql); // Assuming fetch() retrieves a single row
+
+        if ($result) {
+            return $result;
+        } else {
+            return null; // Return null if no ticket is found
+        }
+    }
+
+    public function addComment($userId, $ticketId, $comment) {
+        $userId = $this->db->escape($userId);
+        $ticketId = $this->db->escape($ticketId);
+        $comment = $this->db->escape($comment);
+    
+        $sql = "INSERT INTO comment (content, id_ticket, id_user, creatingDate) VALUES ('$comment', '$ticketId', '$userId', NOW())";
+        return $this->db->query($sql);
+    }
+    
+    public function getCommentsByTicketId($ticketId) {
+        $ticketId = $this->db->escape($ticketId);
+        $sql = "SELECT * FROM comment WHERE id_ticket = '$ticketId'";
+        return $this->db->fetchAll($sql);
+    }
+    
 
 }
 ?>

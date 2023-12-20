@@ -1,3 +1,19 @@
+<?php
+
+require_once '../classes/Ticket.php';
+$ticket = new Ticket();
+// Get the ticket ID from the URL query parameter
+$id_ticket = isset($_GET['id']) ? $_GET['id'] : null;
+
+if ($id_ticket) {
+    $ticketDetails = $ticket->getTicketById($id_ticket);
+} else {
+    // Handle the case where no ID is provided or redirect
+    echo "No ticket ID provided.";
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,54 +33,59 @@
         </div>
     </nav>
     <div class="container mx-auto p-6">
+       
         <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="flex flex-col items-center justify-center p-6 border-b border-gray-200">
-                <div class="w-full">
-                    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate ">Ticket Details</h2>
-                </div>
-            </div>
+            
             <div class="flex flex-col px-4 py-5 sm:p-6">
-                <!-- Detail sections -->
+               
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Title</label>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Enter Title">
+                    <p><?= htmlspecialchars($ticketDetails['titre']) ?></p>
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Assigned To</label>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Assignee Name">
+                    <p><?= htmlspecialchars($ticketDetails['name']) ?></p>
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Status</label>
-                    <select class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option>Open</option>
-                        <option>In Progress</option>
-                        <option>Closed</option>
-                    </select>
+                    <p><?= htmlspecialchars($ticketDetails['status']) ?></p>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Priority</label>
-                    <select class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option>Low</option>
-                        <option>Medium</option>
-                        <option>High</option>
-                    </select>
+                    <label class="block text-sm font-medium text-gray-700">Priorite</label>
+                    <p><?= htmlspecialchars($ticketDetails['priorite']) ?></p>
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="4" placeholder="Enter Description"></textarea>
+                    <p><?= htmlspecialchars($ticketDetails['description']) ?></p>
                 </div>
+                
             </div>
         </div>
+    </div>
+        </div>
+        <form action="add_comment_process.php" method="post">
+    <textarea name="comment" required></textarea>
+    <input type="hidden" name="ticket_id" value="<?= $id_ticket ?>">
+    <button type="submit">Post Comment</button>
+</form>
+
         <section class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
             <div class="max-w-2xl mx-auto px-4">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion (20)</h2>
                 </div>
                 <form class="mb-6">
+                <form action="add_comment_process.php" method="post">
                     <div class="py-2 px-4 mb-4 bg-white rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-                        <label for="comment" class="sr-only">Your comment</label>
-                        <textarea id="comment" rows="4" class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:bg-gray-800" placeholder="Write a comment..." required></textarea>
+                        <!-- <label for="comment"  class="sr-only">Your comment</label>
+                        <textarea id="comment" name="comment" rows="4" class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:bg-gray-800" placeholder="Write a comment..." required></textarea>-->
+                       <?php $comments = $ticket->getCommentsByTicketId($id_ticket);
+foreach ($comments as $comment) {
+    echo "<p>" . htmlspecialchars($comment['content']) . "</p>";
+}
+?>
                     </div>
+                    <input type="hidden" name="ticket_id" value="<?= $id_ticket ?>">
                     <button type="submit" class="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-800">
                         Post comment
                     </button>
