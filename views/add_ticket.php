@@ -1,3 +1,15 @@
+<?php
+require_once '../classes/Ticket.php';
+require_once '../classes/User.php';
+
+$ticket = new Ticket();
+$priorities = $ticket->getPriorities();
+$statuses = $ticket->getStatuses();
+
+$user = new User();
+$users = $user->getUsers();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,57 +46,68 @@
                                 <div class="grid gap-4 text-sm grid-cols-1 md:grid-cols-5">
                                     <div class="md:col-span-5">
                                         <label for="title">Title</label>
-                                        <input type="text" id="title"
+                                        <input type="text" id="title" name="title"
                                             class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" />
                                     </div>
 
                                     <div class="md:col-span-5">
-                                        <label for="assignedTo"
+                                        <label for="assignedToDropdown"
                                             class="block text-sm font-medium leading-6 text-gray-900">Assigned
                                             to</label>
                                         <div class="relative mt-2">
-                                            <button type="button" id="dropdownButton"
+                                            <button type="button" id="assignedToDropdown"
                                                 class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
                                                 <span class="flex items-center">
-                                                    <span class="ml-3 block truncate" id="selectedNames">Select
+                                                    <span class="ml-3 block truncate" id="selectedUsers">Select
                                                         Members</span>
                                                 </span>
                                                 <span
                                                     class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                                                    <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="none"
-                                                        stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2" d="M6 9l6 6 6-6" />
-                                                    </svg>
                                                 </span>
                                             </button>
-                                            <ul id="dropdownMenu"
-                                                class="hidden absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-                                                tabindex="-1">
-                                            </ul>
+                                            <label for="assignedTo"
+                                                class="block text-sm font-medium leading-6 text-gray-900">Assigned
+                                                to</label>
+                                            <select id="assignedTo" name="assignedTo[]" multiple
+                                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                                style="height: 100px;">
+                                                <?php foreach ($users as $user): ?>
+                                                    <option value="<?php echo htmlspecialchars($user['id_user']); ?>">
+                                                        <?php echo htmlspecialchars($user['name']); ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                     </div>
+
+
 
                                     <div class="md:col-span-5">
                                         <label for="status"
                                             class="block text-sm font-medium leading-6 text-gray-900">Status</label>
-                                        <select id="status"
+                                        <select id="status" name="status"
                                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                                            <option value="">Select Status</option>
-                                            <option value="open">Open</option>
-                                            <option value="in_progress">In Progress</option>
-                                            <option value="closed">Closed</option>
+                                            <option value="" name="status">Select Status</option>
+                                            <?php foreach ($statuses as $status): ?>
+                                                <option value="<?php echo htmlspecialchars($status); ?>">
+                                                    <?php echo htmlspecialchars($status); ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
 
+
                                     <div class="md:col-span-5">
-                                        <label for="priority"
+                                        <label for="priorite"
                                             class="block text-sm font-medium leading-6 text-gray-900">Priority</label>
-                                        <select id="priority"
+                                        <select id="priorite" name="priorite"
                                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                                            <option value="">Select Priority</option>
-                                            <option value="low">Low</option>
-                                            <option value="medium">meduim</option>
+                                            <option value="" name="priority">Select Priority</option>
+                                            <?php foreach ($priorities as $priority): ?>
+                                                <option value="<?php echo htmlspecialchars($priority); ?>">
+                                                    <?php echo htmlspecialchars($priority); ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
 
@@ -94,7 +117,7 @@
 
                                     <div class="md:col-span-5">
                                         <label for="description">Description</label>
-                                        <textarea id="description" cols="30" rows="4"
+                                        <textarea id="description" cols="30" rows="4" name="description"
                                             class="h-25 border mt-1 rounded px-4 w-full bg-gray-50"
                                             placeholder="Add your ticket description here"></textarea>
                                     </div>
@@ -113,48 +136,33 @@
     </div>
 
     <script>
-        // Sample data for dropdown
-        const members = [
-            { id: 1, name: 'Tom Cook' },
-            { id: 2, name: 'Jane Doe' },
-            { id: 3, name: 'John Smith' }
-        ];
-        const selectedMembers = [];
+        const members = <?php echo json_encode($users); ?>;
+        let selectedUsers = [];
 
-        function toggleDropdown() {
-            var dropdownMenu = document.getElementById('dropdownMenu');
-            dropdownMenu.classList.toggle('hidden');
-        }
-
-        function selectMember(memberId) {
-            const memberIndex = selectedMembers.indexOf(memberId);
-            if (memberIndex > -1) {
-                selectedMembers.splice(memberIndex, 1);
-            } else {
-                selectedMembers.push(memberId);
-            }
-            updateSelectedNames();
-        }
-
-        function updateSelectedNames() {
-            const selectedNames = selectedMembers.map(id => members.find(member => member.id === id).name);
-            document.getElementById('selectedNames').textContent = selectedNames.join(', ') || 'Select Members';
-        }
-
-        // Populate dropdown with members
-        function populateDropdown() {
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            members.forEach(member => {
-                const listItem = document.createElement('li');
-                listItem.className = 'text-gray-900 cursor-default select-none py-2 pl-3 pr-9';
-                listItem.textContent = member.name;
-                listItem.onclick = () => selectMember(member.id);
-                dropdownMenu.appendChild(listItem);
+        function updateSelectedUsersDisplay() {
+            const names = selectedUsers.map(id => {
+                const user = members.find(member => member.id_user == id);
+                return user ? user.name : '';
             });
+
+            document.getElementById('selectedUsers').textContent = names.join(', ') || 'Select Members';
         }
 
-        document.getElementById('dropdownButton').addEventListener('click', toggleDropdown);
-        window.onload = populateDropdown;
+
+        function toggleSelection(userId) {
+            const index = selectedUsers.indexOf(userId);
+            if (index > -1) {
+                selectedUsers.splice(index, 1);
+            } else {
+                selectedUsers.push(userId);
+            }
+            updateSelectedUsersDisplay();
+        }
+
+
+        document.getElementById('assignedToDropdown').addEventListener('click', () => {
+            document.getElementById('dropdownMenu').classList.toggle('hidden');
+        });
     </script>
 </body>
 
