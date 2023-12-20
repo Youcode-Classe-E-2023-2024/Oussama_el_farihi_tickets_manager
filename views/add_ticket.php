@@ -51,20 +51,6 @@ $users = $user->getUsers();
                                     </div>
 
                                     <div class="md:col-span-5">
-                                        <label for="assignedToDropdown"
-                                            class="block text-sm font-medium leading-6 text-gray-900">Assigned
-                                            to</label>
-                                        <div class="relative mt-2">
-                                            <button type="button" id="assignedToDropdown"
-                                                class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
-                                                <span class="flex items-center">
-                                                    <span class="ml-3 block truncate" id="selectedUsers">Select
-                                                        Members</span>
-                                                </span>
-                                                <span
-                                                    class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                                                </span>
-                                            </button>
                                             <label for="assignedTo"
                                                 class="block text-sm font-medium leading-6 text-gray-900">Assigned
                                                 to</label>
@@ -100,7 +86,7 @@ $users = $user->getUsers();
                                     <div class="md:col-span-5">
                                         <label for="priorite"
                                             class="block text-sm font-medium leading-6 text-gray-900">Priority</label>
-                                        <select id="priorite" name="priorite"
+                                        <select id="priority" name="priority"
                                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
                                             <option value="" name="priority">Select Priority</option>
                                             <?php foreach ($priorities as $priority): ?>
